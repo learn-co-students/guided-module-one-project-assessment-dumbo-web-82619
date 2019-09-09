@@ -1,6 +1,6 @@
 class Interface
     attr_reader :prompt
-    attr_accessor :user
+    attr_accessor :user, :gym, :program, :registration
 
     def initialize()
         @prompt = TTY::Prompt.new
@@ -63,9 +63,11 @@ class Interface
         system "clear"
         option = self.prompt.select("Here are your registered gyms:") do |menu|
             gyms.map do |gym|
-            menu.choice "#{gym.name}", -> {Gym.find_gym_by_name("#{gym.name}").select_gym_programs}
+            menu.choice "#{gym.name}", -> {Gym.find_by(name: gym.name).list_gym_programs}
             end
         end
     end
+
+    
 
 end

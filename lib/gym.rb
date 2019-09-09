@@ -13,9 +13,13 @@ class Gym < ActiveRecord::Base
         selected = self.where("name like ?", "%#{name_arg}%")
     end
 
-    def select_gym_programs
-        programs = TTY::Prompt.new.select("Gym Programs:", self.programs.pluck(:name))
-        Program.find_by(name: program)
+    def list_gym_programs
+        system "clear"
+        program = TTY::Prompt.new.select("Gym Programs:", self.programs.pluck(:name))
+        found = Program.find_by(name: program)
+        system "clear"
+        puts found.name
+        puts found.description
     end
 
 
