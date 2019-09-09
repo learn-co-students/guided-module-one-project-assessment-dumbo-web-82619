@@ -5,8 +5,8 @@ Program.destroy_all
 
 
 #Users data--->
-benny = User.create(name: "Benny Louie", age: 23, city: "Brooklyn", state: "New York")
-dan = User.create(name: "Dan Romans", age: 33, city: "Queens", state: "New York")
+benny = User.create(name: "Kelvin Louie", age: 22, city: "Brooklyn", state: "New York")
+dan = User.create(name: "Don Romano", age: 34, city: "Queens", state: "New York")
 bozo1 = User.create(name: "Bob Sarkins", age: 27, city: "Denver", state: "Colorado")
 bozo2 = User.create(name: "Dale Flirkin", age: 42, city: "Columbus", state: "Ohio")
 bozo3 = User.create(name: "Theordore Nobelt", age: 18, city: "Boulder", state: "Colorado")
