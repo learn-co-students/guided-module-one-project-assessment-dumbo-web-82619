@@ -18,7 +18,7 @@ fitness = Gym.create(name: "Planet Fitness", city: "Denver", state: "Colorado")
 hour = Gym.create(name: "24-Hour Fitness", city: "Columbus", state: "Ohio")
 
 #Program data --->
-spin = Program.create(name: "Spin Class", gym_id: dolphin.id, category: "Cardio", description: "Instructor-lead, weight-loss program where members will sweat their socks off! Come join for a spin session you will never forget!")
+spin = Program.create(name: "Zumba Class", gym_id: dolphin.id, category: "Cardio", description: "Instructor-lead, weight-loss program where members will sweat their socks off! Come join for a spin session you will never forget!")
 weights = Program.create(name: "Weightlifting", gym_id: blink.id, category: "Weights", description: "Our gym offers state-of-the-art workout equipment for all our members to enjoy. From dumbbells to barbells... We have it all! Personal trainer provided if requested.")
 zumba = Program.create(name: "Zumba Class", gym_id: fitness.id, category: "Cardio", description: "Interested in an intense cardio-focused weight-loss program? Look no further for our zumba class is available for all.")
 bouldering = Program.create(name: "Bouldering", gym_id: hour.id, category: "Full-Body", description: "Challenge your limits. Ascend to the next level of human physical fitness!")

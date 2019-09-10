@@ -10,75 +10,38 @@ class Interface
         system "clear"
         puts "Welcome to GymFinder!"
         choice = self.prompt.select("Are you a New user or Returning user?") do |menu|
-            menu.choice "New User"
-            menu.choice "Returning User"
+            menu.choice "New User", ->{User.handle_new_user}
+            menu.choice "Returning User", -> {User.handle_returning_user}
         end
-        case choice
-        when "New User"
-            User.handle_new_user
-        when "Returning User"
-            User.handle_returning_user
-        end 
     end
 
     def main_menu
         system "clear"
+        puts "Hello, #{self.user.name}!"
+        puts ""
         choice = self.prompt.select("Welcome! Please select one of the following:") do |menu|
-            menu.choice "My Gyms", -> {self.gym_menu}
+            menu.choice "My Gyms", -> {self.user.gym_menu}
             menu.choice "Manage Memberships", -> {self.user.manage_memberships}
             menu.choice "Search Gyms and Programs", -> {self.search}
-            menu.choice "Exit"
+            menu.choice "Exit", -> {self.exit_app}
         end
     end
-        # case choice
-    #     when "My Gyms"
-    #         gyms = self.user.registrations.map do |registration|
-    #             Gym.find(registration.gym_id)
-    #         end
-    #         system "clear"
-    #         selection = nil
-    #         option = self.prompt.select("Here are your registered gyms:") do |menu|
-    #             gyms.map do |gym|
-    #             selection = gym.name
-    #             menu.choice "#{selection}"
-    #             end
-    #         end
-    #         case option
-    #         when selection
-    #             programs = Gym.find_by(name: selection).programs
-    #             binding.pry
-    #             puts programs
-    #         end
-    #         # binding.pry
-            
-    #         # puts gym_names
-    #         sleep 3
-    #         self.main_menu
-    #     end
-    # end
 
-    #Gym Menu from "My Gym" after a user is selected--->
-    def gym_menu
-        gyms = self.user.registrations.map do |registration|
-            Gym.find(registration.gym_id)
-        end
-        system "clear"
-        option = self.prompt.select("Here are your registered gyms:") do |menu|
-            gyms.map do |gym|
-            menu.choice "#{gym.name}", -> {Gym.find_by(name: gym.name).list_gym_programs}
-            end
-        end
-    end
 
     def search
-        self.prompt.select("What would you like to do?") do |menu|
+        self.prompt.select("Select a search-by option?") do |menu|
             menu.choice "Search by name", -> {Gym.prompt_name}
-            menu.choice "Search by program"
-            menu.choice "Search by city"
-            menu.choice "Search by state"
+            menu.choice "Search by program", ->{Program.finder}
+            menu.choice "Search by location", ->{Gym.finder}
             menu.choice "Exit"
         end
     end
     
+    def exit_app
+        puts ""
+        puts "See you next time!"
+        puts ""
+        exit!
+    end
 
 end

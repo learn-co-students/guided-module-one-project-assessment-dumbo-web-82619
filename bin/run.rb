@@ -5,9 +5,6 @@ puts "hello world"
 cli = Interface.new
 user_object = cli.welcome
 
-# while user_object == nil
-#     user_object = cli.welcome
-# end
 if user_object == nil
     system "clear"
     puts "Sorry, we don't have you on file"
@@ -19,11 +16,7 @@ else
 end
 
 loop do
-    # TTY::Prompt.new.keypress("\nPress any key to return previous menu")
     user_object.reload
     system "clear"
     cli.main_menu
 end
-
-# binding.pry
-0
