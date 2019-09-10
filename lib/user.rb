@@ -116,13 +116,13 @@ class User < ActiveRecord::Base
                 system "clear"
                 puts "Your membership has been suspended"
                 sleep 2
-                self.manage_memberships
+                return self.manage_memberships
             else
                 self.reactivate_membership(Gym.find(found.gym_id))
                 system "clear"
                 puts "Your membership has been reactivated"
                 sleep 2
-                self.manage_memberships
+                return self.manage_memberships
             end
         end
     end
