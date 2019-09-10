@@ -151,11 +151,17 @@ class User < ActiveRecord::Base
     end
 
     def register_action(gym)
-        date = TTY::Prompt.new.ask("Please enter your desired start date? (ie. January 1, 2019)")
-        self.register_gym(gym, date)
-        puts "Your selected gym's membership has been confirmed"
-        sleep 2
-        self.manage_memberships
+        if self.gyms.include?(gym)
+            puts "You are already registered to that gym"
+            sleep 2
+            self.manage_memberships
+        else
+            date = TTY::Prompt.new.ask("Please enter your desired start date? (ie. January 1, 2019)")
+            self.register_gym(gym, date)
+            puts "Your selected gym's membership has been confirmed"
+            sleep 2
+            self.manage_memberships
+        end
     end
 
 
