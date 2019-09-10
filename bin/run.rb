@@ -18,6 +18,12 @@ else
     cli.main_menu
 end
 
+loop do
+    # TTY::Prompt.new.keypress("\nPress any key to return previous menu")
+    user_object.reload
+    system "clear"
+    cli.main_menu
+end
 
 # binding.pry
 0

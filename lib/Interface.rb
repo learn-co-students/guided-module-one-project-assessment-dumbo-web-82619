@@ -25,7 +25,8 @@ class Interface
         system "clear"
         choice = self.prompt.select("Welcome! Please select one of the following:") do |menu|
             menu.choice "My Gyms", -> {self.gym_menu}
-            menu.choice "Browse Gyms and Programs"
+            menu.choice "Manage Memberships", -> {self.user.manage_memberships}
+            menu.choice "Search Gyms and Programs", -> {self.search}
             menu.choice "Exit"
         end
     end
@@ -56,6 +57,7 @@ class Interface
     #     end
     # end
 
+    #Gym Menu from "My Gym" after a user is selected--->
     def gym_menu
         gyms = self.user.registrations.map do |registration|
             Gym.find(registration.gym_id)
@@ -68,6 +70,15 @@ class Interface
         end
     end
 
+    def search
+        self.prompt.select("What would you like to do?") do |menu|
+            menu.choice "Search by name", -> {Gym.prompt_name}
+            menu.choice "Search by program"
+            menu.choice "Search by city"
+            menu.choice "Search by state"
+            menu.choice "Exit"
+        end
+    end
     
 
 end
