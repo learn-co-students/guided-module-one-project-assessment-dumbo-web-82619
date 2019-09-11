@@ -9,6 +9,7 @@ class Interface
     def welcome
         system "clear"
         puts "Welcome to GymFinder!"
+        puts ""
         choice = self.prompt.select("Are you a New user or Returning user?") do |menu|
             menu.choice "New User", ->{User.handle_new_user}
             menu.choice "Returning User", -> {User.handle_returning_user}
@@ -27,8 +28,10 @@ class Interface
         end
     end
 
-
     def search
+        system "clear"
+        puts "Search for Gyms"
+        puts ""
         self.prompt.select("Select a search-by option?") do |menu|
             menu.choice "Search by name", -> {Gym.prompt_name}
             menu.choice "Search by program", ->{Program.finder}

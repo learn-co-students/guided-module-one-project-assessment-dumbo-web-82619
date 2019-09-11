@@ -46,6 +46,8 @@ class Gym < ActiveRecord::Base
 
     def self.finder 
         system "clear"
+        puts "Search for gym by location"
+        puts ""
         TTY::Prompt.new.select("Select query option:") do |menu|
             menu.choice "Find by city", -> {self.city_finder}
             menu.choice "Find by state", -> {self.state_finder}
@@ -76,8 +78,8 @@ class Gym < ActiveRecord::Base
             puts gym.name
         end
         TTY::Prompt.new.select(" ") do |menu|
-            menu.choice "Back to Membership Manager", -> {self.finder}
-            menu.choice "Back to Menu"
+            menu.choice "Back to Search By Location", -> {self.finder}
+            menu.choice "Back to Main Menu"
         end
     end
 
@@ -103,8 +105,8 @@ class Gym < ActiveRecord::Base
             puts gym.name
         end
         TTY::Prompt.new.select(" ") do |menu|
-            menu.choice "Back to Membership Manager", -> {self.finder}
-            menu.choice "Back to Menu"
+            menu.choice "Back to Search By Location", -> {self.finder}
+            menu.choice "Back to Main Menu"
         end
     end
 

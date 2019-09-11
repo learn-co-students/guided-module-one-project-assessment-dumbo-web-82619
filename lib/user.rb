@@ -19,14 +19,14 @@ class User < ActiveRecord::Base
         age = self.tty_prompt.ask("What is your age? (Please enter your age as an integer)")
         city = self.tty_prompt.ask("What city do you reside in?")
         state = self.tty_prompt.ask("What state do you reside in?")
-        User.create(name: name.titleize, age: age, city: city.titleize, state: state.titleize)
+        user = User.create(name: name.titleize, age: age, city: city.titleize, state: state.titleize)
     end
 
     def self.handle_returning_user
         name = self.tty_prompt.ask("Please enter your full name")
         city = self.tty_prompt.ask("Please enter your city")
         state = self.tty_prompt.ask("Please enter your state")
-        User.find_by(name: name.titleize, city: city.titleize, state: state.titleize)
+        user = User.find_by(name: name.titleize, city: city.titleize, state: state.titleize)
     end
 
     
@@ -116,13 +116,13 @@ class User < ActiveRecord::Base
                 system "clear"
                 puts "Your membership has been suspended"
                 sleep 2
-                return self.manage_memberships
+                self.manage_memberships
             else
                 self.reactivate_membership(Gym.find(found.gym_id))
                 system "clear"
                 puts "Your membership has been reactivated"
                 sleep 2
-                return self.manage_memberships
+                self.manage_memberships
             end
         end
     end
