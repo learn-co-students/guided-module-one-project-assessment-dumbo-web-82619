@@ -5,11 +5,11 @@ Program.destroy_all
 
 
 #Users data--->
-benny = User.create(name: "Kelvin Louie", age: 22, city: "Brooklyn", state: "New York")
-dan = User.create(name: "Don Romano", age: 34, city: "Queens", state: "New York")
-bozo1 = User.create(name: "Bob Sarkins", age: 27, city: "Denver", state: "Colorado")
-bozo2 = User.create(name: "Dale Flirkin", age: 42, city: "Columbus", state: "Ohio")
-bozo3 = User.create(name: "Theordore Nobelt", age: 18, city: "Boulder", state: "Colorado")
+kelvin = User.create(username: "klou22", password: "klou22", name: "Kelvin Louie", age: 22, city: "Brooklyn", state: "New York")
+don = User.create(username: "donbon", password: "donbon", name: "Don Romano", age: 34, city: "Queens", state: "New York")
+bozo1 = User.create(username: "bscode", password: "bscode", name: "Bob Sarkins", age: 27, city: "Denver", state: "Colorado")
+bozo2 = User.create(username: "dfcode", password: "dfcode", name: "Dale Flirkin", age: 42, city: "Columbus", state: "Ohio")
+bozo3 = User.create(username: "tncode", password: "tncode", name: "Theordore Nobelt", age: 18, city: "Boulder", state: "Colorado")
 
 #Gym data --->
 dolphin = Gym.create(name: "Dolphin Fitness", city: "Brooklyn", state: "New York")
@@ -26,12 +26,12 @@ boxing = Program.create(name: "Kickboxing", gym_id: dolphin.id, category: "Marti
 crossfit = Program.create(name: "Cross-Fit", gym_id: blink.id, category: "Full-Body", description: "Extreme is just the beginning! Get fit beyond belief! Weights! Cardio! We do everything!")
 
 #Registration data --->
-reg1 = Registration.create(user_id: benny.id, gym_id: dolphin.id, start_date: "June 14, 2019", status: "Active")
-reg2 = Registration.create(user_id: dan.id, gym_id: blink.id, start_date: "October 17, 2019", status: "Active")
+reg1 = Registration.create(user_id: kelvin.id, gym_id: dolphin.id, start_date: "June 14, 2019", status: "Active")
+reg2 = Registration.create(user_id: don.id, gym_id: blink.id, start_date: "October 17, 2019", status: "Active")
 reg3 = Registration.create(user_id: bozo1.id, gym_id: fitness.id, start_date: "December 4, 2016", status: "Inactive")
 reg4 = Registration.create(user_id: bozo2.id, gym_id: hour.id, start_date: "February 24, 2019", status: "Active")
 reg5 = Registration.create(user_id: bozo3.id, gym_id: dolphin.id, start_date: "March 14, 2018", status: "Inactive")
-reg6 = Registration.create(user_id: benny.id, gym_id: blink.id, start_date: "June 16, 2009", status: "Inactive")
-reg7 = Registration.create(user_id: dan.id, gym_id: fitness.id, start_date: "April 19, 2018", status: "Active")
+reg6 = Registration.create(user_id: kelvin.id, gym_id: blink.id, start_date: "June 16, 2009", status: "Inactive")
+reg7 = Registration.create(user_id: don.id, gym_id: fitness.id, start_date: "April 19, 2018", status: "Active")
 
 puts "It has been seeded."
