@@ -23,24 +23,24 @@ class Interface
         choice = self.prompt.select("Welcome! Please select one of the following:") do |menu|
             menu.choice "My Gyms", -> {self.user.gym_menu}
             menu.choice "Manage Memberships", -> {self.user.manage_memberships}
-            menu.choice "Search Gyms and Programs", -> {self.search}
+            menu.choice "Manage Account", -> {self.user.manage_account}
+            menu.choice "Search Gyms", -> {self.search}
             menu.choice "Exit", -> {self.exit_app}
         end
     end
 
     def search
         system "clear"
-        puts "Search for Gyms"
-        puts ""
         self.prompt.select("Select a search-by option?") do |menu|
             menu.choice "Search by name", -> {Gym.prompt_name}
             menu.choice "Search by program", ->{Program.finder}
             menu.choice "Search by location", ->{Gym.finder}
-            menu.choice "Exit"
+            menu.choice "Main Menu"
         end
     end
     
     def exit_app
+        system "clear"
         puts ""
         puts "See you next time!"
         puts ""

@@ -19,7 +19,7 @@ class Gym < ActiveRecord::Base
         puts ""
         TTY::Prompt.new.select(" ") do |menu|
             menu.choice "Back to programs", -> {self.list_gym_programs}
-            menu.choice "Back to Menu"
+            menu.choice "Main Menu"
         end
     end
 
@@ -27,13 +27,15 @@ class Gym < ActiveRecord::Base
 #--------query select: search by name------------------------------------------->
 
     def self.prompt_name
+        system "clear"
         gym_name = TTY::Prompt.new.ask("Enter the name of the gym:")
+        puts ""
         found = self.find_gym_by_name(gym_name)
         found.each do |f|
             puts "#{f.name}: #{f.city}, #{f.state}"
         end
         TTY::Prompt.new.select(" ") do |menu|
-            menu.choice "Back to Menu"
+            menu.choice "Main Menu"
         end
     end
 
@@ -51,7 +53,7 @@ class Gym < ActiveRecord::Base
         TTY::Prompt.new.select("Select query option:") do |menu|
             menu.choice "Find by city", -> {self.city_finder}
             menu.choice "Find by state", -> {self.state_finder}
-            menu.choice "Exit"
+            menu.choice "Main Menu"
         end
     end
 
@@ -66,6 +68,7 @@ class Gym < ActiveRecord::Base
             cities.uniq.each do |city|
                 menu.choice "#{city}", -> {self.find_gym_by_city(city)}
             end
+            menu.choice "Back", -> {self.finder}
         end
     end
 
@@ -78,8 +81,8 @@ class Gym < ActiveRecord::Base
             puts gym.name
         end
         TTY::Prompt.new.select(" ") do |menu|
-            menu.choice "Back to Search By Location", -> {self.finder}
-            menu.choice "Back to Main Menu"
+            menu.choice "Back", -> {self.city_finder}
+            menu.choice "Main Menu"
         end
     end
 
@@ -93,6 +96,7 @@ class Gym < ActiveRecord::Base
             states.uniq.each do |state|
                 menu.choice "#{state}", -> {self.find_gym_by_state(state)}
             end
+            menu.choice "Back", -> {self.finder}
         end
     end
     
@@ -105,8 +109,8 @@ class Gym < ActiveRecord::Base
             puts gym.name
         end
         TTY::Prompt.new.select(" ") do |menu|
-            menu.choice "Back to Search By Location", -> {self.finder}
-            menu.choice "Back to Main Menu"
+            menu.choice "Back", -> {self.state_finder}
+            menu.choice "Main Menu"
         end
     end
 

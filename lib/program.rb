@@ -17,7 +17,7 @@ class Program < ActiveRecord::Base
         TTY::Prompt.new.select("Select query option:") do |menu|
             menu.choice "Find by name", -> {self.name_finder}
             menu.choice "Find by category", -> {self.category_finder}
-            menu.choice "Exit"
+            menu.choice "Main Menu"
         end
     end
 
@@ -25,6 +25,7 @@ class Program < ActiveRecord::Base
 #-----------query select: search by name--------------------------------->
 
     def self.name_finder
+        system "clear"
         names = Program.all.map do |program|
             program.name
         end
@@ -32,6 +33,7 @@ class Program < ActiveRecord::Base
             names.uniq.each do |name|
                 menu.choice "#{name}", -> {self.find_gym_by_name(name)}
             end
+            menu.choice "Back", -> {self.finder}
         end
     end
 
@@ -47,8 +49,8 @@ class Program < ActiveRecord::Base
             puts g.name
         end
         TTY::Prompt.new.select(" ") do |menu|
-            menu.choice "Back to programs", -> {self.finder}
-            menu.choice "Back to Menu"
+            menu.choice "Back", -> {self.name_finder}
+            menu.choice "Main Menu"
         end
     end
 
@@ -56,6 +58,7 @@ class Program < ActiveRecord::Base
 #-----------query select: search by category--------------------------->
 
     def self.category_finder
+        system "clear"
         categories = Program.all.map do |program|
                 program.category
             end
@@ -63,6 +66,7 @@ class Program < ActiveRecord::Base
             categories.uniq.each do |category|
                 menu.choice "#{category}", -> {self.find_gym_by_category(category)}
             end
+            menu.choice "Back", -> {self.finder}
         end
     end
     
@@ -78,8 +82,8 @@ class Program < ActiveRecord::Base
             puts it.name
         end
         TTY::Prompt.new.select(" ") do |menu|
-            menu.choice "Back to programs", -> {self.finder}
-            menu.choice "Back to Menu"
+            menu.choice "Back", -> {self.category_finder}
+            menu.choice "Main Menu"
         end
     end
 
