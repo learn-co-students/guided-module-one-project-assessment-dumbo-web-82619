@@ -12,21 +12,21 @@ class User < ActiveRecord::Base
         end
     end
 
-    #-------------USER HANDLES-------------------------------------------------------------------->
+#-------------USER HANDLES-------------------------------------------------------------------->
 
     def self.handle_new_user
         name = self.tty_prompt.ask("What is your name? (Please enter your full name)")
         age = self.tty_prompt.ask("What is your age? (Please enter your age as an integer)")
         city = self.tty_prompt.ask("What city do you reside in?")
         state = self.tty_prompt.ask("What state do you reside in?")
-        User.create(name: name.titleize, age: age, city: city.titleize, state: state.titleize)
+        user = User.create(name: name.titleize, age: age, city: city.titleize, state: state.titleize)
     end
 
     def self.handle_returning_user
         name = self.tty_prompt.ask("Please enter your full name")
         city = self.tty_prompt.ask("Please enter your city")
         state = self.tty_prompt.ask("Please enter your state")
-        User.find_by(name: name.titleize, city: city.titleize, state: state.titleize)
+        user = User.find_by(name: name.titleize, city: city.titleize, state: state.titleize)
     end
 
     
@@ -54,8 +54,17 @@ class User < ActiveRecord::Base
  #-----------membership management page------------------------------------->
 
     def manage_memberships
+        active = self.active_memberships.map do |membership|
+            "ID# #{membership.gym_id}) #{Gym.find(membership.gym_id).name}:
+            start date: #{membership.start_date}, status: #{membership.status}\n"
+        end
+        inactive = self.inactive_memberships.map do |membership|
+            "ID# #{membership.gym_id}) #{Gym.find(membership.gym_id).name}:
+            start date: #{membership.start_date}, status: #{membership.status}\n"
+        end
         system "clear"
         if self.gyms == []
+            system "clear"
             puts "You have no memberships to show"
             puts ""
             TTY::Prompt.new.select("Would you like to register for a membership?") do |menu|
@@ -63,19 +72,12 @@ class User < ActiveRecord::Base
                 menu.choice "No"
             end
         else
-            active = self.active_memberships.map do |membership|
-                "ID# #{membership.gym_id}) #{Gym.find(membership.gym_id).name}:
-                start date: #{membership.start_date}, status: #{membership.status}\n"
-            end
-            inactive = self.inactive_memberships.map do |membership|
-                "ID# #{membership.gym_id}) #{Gym.find(membership.gym_id).name}:
-                start date: #{membership.start_date}, status: #{membership.status}\n"
-            end
-            # system "clear"
+            system "clear"
             puts "Here are your current memberships:"
-            puts ""
+            puts "Active:"
             puts active
             puts ""
+            puts "Inactive:"
             puts inactive
             puts ""
             TTY::Prompt.new.select("What action would you like to perform?") do |menu|
@@ -112,17 +114,19 @@ class User < ActiveRecord::Base
             self.membership_update
         else
             if found.status == "Active"
-                self.suspend_membership(Gym.find(found.gym_id))
+                q = self.suspend_membership(Gym.find(found.gym_id))
                 system "clear"
                 puts "Your membership has been suspended"
+                self.reload
                 sleep 2
-                return self.manage_memberships
+                self.manage_memberships
             else
                 self.reactivate_membership(Gym.find(found.gym_id))
                 system "clear"
                 puts "Your membership has been reactivated"
+                self.reload
                 sleep 2
-                return self.manage_memberships
+                self.manage_memberships
             end
         end
     end
@@ -158,10 +162,16 @@ class User < ActiveRecord::Base
         else
             date = TTY::Prompt.new.ask("Please enter your desired start date? (ie. January 1, 2019)")
             self.register_gym(gym, date)
+            system "clear"
             puts "Your selected gym's membership has been confirmed"
+            self.reload
             sleep 2
             self.manage_memberships
         end
+    end
+
+    def register_gym(gym, date) 
+        Registration.create(user_id: self.id, gym_id: gym.id, start_date: date, status: "Active")
     end
 
 
@@ -179,6 +189,8 @@ class User < ActiveRecord::Base
             self.cancel_membership(Gym.find(found.gym_id))
             system "clear"
             puts "Your membership has been canceled"
+            self.reload
+            sleep 2
             TTY::Prompt.new.select(" ") do |menu|
                 menu.choice "Back to programs", -> {self.manage_memberships}
                 menu.choice "Back to Menu"
@@ -191,6 +203,79 @@ class User < ActiveRecord::Base
         membership.destroy
     end
 
+#------------------Manage Account-------------------------------->
+
+    def manage_account
+        TTY::Prompt.new.select("Account Options") do |menu|
+            menu.choice "Edit Name", -> {self.change_name}
+            menu.choice "Edit City", -> {self.change_city}
+            menu.choice "Edit State", -> {self.change_state}
+            menu.choice "Delete Account", -> {self.delete_account_prompt}
+            menu.choice "Exit"
+        end
+    end
+
+
+#---------------------------Edit User Attributes------------------------------->
+
+    def change_name
+        puts "Your current name is: #{self.name}"
+        puts ""
+        name = TTY::Prompt.new.ask("What is your new name? (Please enter your full name)")
+        self.update_attribute(:name, name)
+        self.save
+        system "clear"
+        puts "Your name has been updated"
+        sleep 2
+        self.manage_account
+    end
+
+    def change_city
+        puts "You currently live in: #{self.city}"
+        puts ""
+        city = TTY::Prompt.new.ask("What is your new city?")
+        self.update_attribute(:city, city)
+        self.save
+        system "clear"
+        puts "Your city has been updated"
+        sleep 2
+        self.manage_account
+    end
+
+    def change_state
+        puts "Your current state is: #{self.state}"
+        puts ""
+        state = TTY::Prompt.new.ask("What is your new state?")
+        self.update_attribute(:state, state)
+        self.save
+        system "clear"
+        puts "Your state has been updated"
+        sleep 2
+        self.manage_account
+    end
+
+#---------------------------------Delete User Account----------------->
+
+    def delete_account_prompt
+        TTY::Prompt.new.select("Are you sure you would like to delete your account?") do |menu|
+            menu.choice "Yes", -> {self.delete_account}
+            menu.choice "No", -> {self.manage_account}
+        end
+    end
+
+    def delete_account
+        self.destroy
+        system "clear"
+        puts "Your account has been deleted"
+        sleep 2
+        puts "Thank you for using GymFinder"
+        sleep 2
+        puts "Sorry our services could not satisfy you"
+        system "clear"
+        sleep 2
+        exit!
+    end
+
 
 #-------------miscellaneous---------------------------------------->
 
@@ -199,10 +284,6 @@ class User < ActiveRecord::Base
         Gym.all.select do |gym|
             gym.city == self.city
         end
-    end
-
-    def register_gym(gym, date) 
-        Registration.create(user_id: self.id, gym_id: gym.id, start_date: date, status: "Active")
     end
 
     def gym_memberships
