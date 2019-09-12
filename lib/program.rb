@@ -46,7 +46,9 @@ class Program < ActiveRecord::Base
         end
         system "clear"
         gym.map do |g|
-            puts g.name
+            p.map do |q|
+                puts "#{g.name}: #{q.category}"
+            end
         end
         TTY::Prompt.new.select(" ") do |menu|
             menu.choice "Back", -> {self.name_finder}
