@@ -238,10 +238,11 @@ class User < ActiveRecord::Base
 #--------create new gym membership------------------------------>
 
     def gym_register
-        TTY::Prompt.new.select("Select a gym to register:") do |menu|
+        TTY::Prompt.new.select("Select a gym to register:", per_page: 20) do |menu|
             Gym.all.map do |gym|
                 menu.choice "#{gym.name}", -> {self.register_action(gym)}
             end
+            menu.choice "Back" 
         end
     end
 
@@ -275,9 +276,14 @@ class User < ActiveRecord::Base
             system "clear"
             puts "Sorry, that membership does not exist"
             sleep 2
-            self.membership_update
+            TTY::Prompt.new.select("") do |menu|
+                menu.choice "Back", -> {self.manage_memberships}
+            end
         else
-            self.cancel_membership(Gym.find(found.gym_id))
+            TTY::Prompt.new.select("Are you sure you would want to cancel your membership?") do |menu|
+                menu.choice "Yes", -> {self.cancel_membership(Gym.find(found.gym_id))}
+                menu.choice "No", -> {self.manage_memberships}
+            end
             system "clear"
             puts "Your membership has been canceled"
             self.reload
