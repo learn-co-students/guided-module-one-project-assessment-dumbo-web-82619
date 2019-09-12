@@ -25,7 +25,7 @@ class Interface
             menu.choice "Manage Memberships", -> {self.user.manage_memberships}
             menu.choice "Manage Account", -> {self.user.manage_account}
             menu.choice "Search Gyms", -> {self.search}
-            menu.choice "Exit", -> {self.exit_app}
+            menu.choice "Exit", -> {Interface.exit_app}
         end
     end
 
@@ -40,7 +40,7 @@ class Interface
         end
     end
     
-    def exit_app
+    def self.exit_app
         system "clear"
         puts ""
         puts "See you next time!"
