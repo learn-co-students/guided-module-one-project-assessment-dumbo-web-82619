@@ -73,7 +73,7 @@ class Gym < ActiveRecord::Base
         cities = self.all.map do |gym|
             gym.city
         end
-        TTY::Prompt.new.select("Gyms by city:") do |menu|
+        TTY::Prompt.new.select("Gyms by city:", per_page: 20) do |menu|
             cities.uniq.each do |city|
                 menu.choice "#{city}", -> {self.find_gym_by_city(city)}
             end
@@ -101,7 +101,7 @@ class Gym < ActiveRecord::Base
         states = self.all.map do |gym|
             gym.state
         end
-        TTY::Prompt.new.select("Gyms by state:") do |menu|
+        TTY::Prompt.new.select("Gyms by state:", per_page: 20) do |menu|
             states.uniq.each do |state|
                 menu.choice "#{state}", -> {self.find_gym_by_state(state)}
             end
