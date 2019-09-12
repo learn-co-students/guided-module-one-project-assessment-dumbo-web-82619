@@ -29,7 +29,7 @@ class Program < ActiveRecord::Base
         names = Program.all.map do |program|
             program.name
         end
-        TTY::Prompt.new.select("Programs by name:") do |menu|
+        TTY::Prompt.new.select("Programs by name:", per_page: 20) do |menu|
             names.uniq.each do |name|
                 menu.choice "#{name}", -> {self.find_gym_by_name(name)}
             end
@@ -62,7 +62,7 @@ class Program < ActiveRecord::Base
         categories = Program.all.map do |program|
                 program.category
             end
-        TTY::Prompt.new.select("Programs by category:") do |menu|
+        TTY::Prompt.new.select("Programs by category:", per_page: 20) do |menu|
             categories.uniq.each do |category|
                 menu.choice "#{category}", -> {self.find_gym_by_category(category)}
             end
@@ -78,7 +78,7 @@ class Program < ActiveRecord::Base
             Gym.find(program.gym_id)
         end
         system "clear"
-        a.map do |it|
+        a.uniq.map do |it|
             puts it.name
         end
         TTY::Prompt.new.select(" ") do |menu|
