@@ -8,6 +8,8 @@ class Interface
 
     def welcome
         system "clear"
+        Animation.animate
+        system "clear"
         puts "Welcome to GymFinder!"
         puts ""
         choice = self.prompt.select("Are you a New user or Returning user?") do |menu|

@@ -31,12 +31,21 @@ class Gym < ActiveRecord::Base
         gym_name = TTY::Prompt.new.ask("Enter the name of the gym:")
         puts ""
         found = self.find_gym_by_name(gym_name)
-        found.each do |f|
-            puts "#{f.name}: #{f.city}, #{f.state}"
+        # binding.pry
+        if found.size == 0
+            TTY::Prompt.new.select("There are no gyms by that name") do |menu|
+                menu.choice "Try again?", -> {self.prompt_name }
+                menu.choice "Main Menu"
+            end
+        else
+            found.each do |f|
+                puts "#{f.name}: #{f.city}, #{f.state}"
+            end
+            TTY::Prompt.new.select(" ") do |menu|
+                menu.choice "Main Menu"
+            end
         end
-        TTY::Prompt.new.select(" ") do |menu|
-            menu.choice "Main Menu"
-        end
+        
     end
 
     def self.find_gym_by_name(name_arg)

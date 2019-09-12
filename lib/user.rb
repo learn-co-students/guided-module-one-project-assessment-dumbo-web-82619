@@ -76,7 +76,9 @@ class User < ActiveRecord::Base
             if self.passwords.include?(password)
                 user = User.find_by(username: username, password: password)
             else
+                system "clear"
                 TTY::Prompt.new.select("Invalid password") do |menu|
+                    sleep 1
                         menu.choice "Try again?", -> {self.handle_returning_user}
                         menu.choice "Exit App", -> {Interface.exit_app}
                     end
@@ -91,9 +93,13 @@ class User < ActiveRecord::Base
                 # user = User.find_by(username: username, password: password)
             end
         else
+            system "clear"
             puts "Sorry, we do not have that username on file."
-            sleep 1
-            self.handle_returning_user
+                TTY::Prompt.new.select("Invalid username") do |menu|
+                    sleep 1
+                    menu.choice "Try again?", -> {self.handle_returning_user}
+                    menu.choice "Exit App", -> {Interface.exit_app}
+                end
         end
     end
     
