@@ -1,7 +1,3 @@
-#!/usr/bin/env ruby
-# require "curses"
-# include Curses
-
 class Animation
 
   def frame_1
