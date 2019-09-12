@@ -70,6 +70,7 @@ class Gym < ActiveRecord::Base
 #----------------query select: search by city------------------>
 
     def self.city_finder
+        system "clear"
         cities = self.all.map do |gym|
             gym.city
         end
@@ -86,8 +87,11 @@ class Gym < ActiveRecord::Base
             gym.city == city
         end
         system "clear"
+        puts "Here are the available gyms in #{city}:"
+        puts ""
         arr.map do |gym|
             puts gym.name
+            puts ""
         end
         TTY::Prompt.new.select(" ") do |menu|
             menu.choice "Back", -> {self.city_finder}
@@ -114,8 +118,11 @@ class Gym < ActiveRecord::Base
             gym.state == state
         end
         system "clear"
+        puts "Here are the available gyms in #{state}:"
+        puts ""
         arr.map do |gym|
             puts gym.name
+            puts ""
         end
         TTY::Prompt.new.select(" ") do |menu|
             menu.choice "Back", -> {self.state_finder}

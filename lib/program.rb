@@ -45,9 +45,14 @@ class Program < ActiveRecord::Base
             Gym.find(program.gym_id)
         end
         system "clear"
-        gym.map do |g|
-            p.map do |q|
-                puts "#{g.name}: #{q.category}"
+        gym.uniq.map do |g|
+            puts "#{g.name}"
+            puts "---------------------------------------" 
+            g.programs.map do |program|
+                if program.name == name_arg
+                    puts "#{program.name}: #{program.description}"
+                    puts ""
+                end
             end
         end
         TTY::Prompt.new.select(" ") do |menu|
@@ -80,8 +85,16 @@ class Program < ActiveRecord::Base
             Gym.find(program.gym_id)
         end
         system "clear"
-        a.uniq.map do |it|
-            puts it.name
+        a.uniq.map do |gym|
+            puts "#{gym.name}:"
+            puts "---------------------------------------" 
+            gym.programs.map do |program|
+                if program.category == category_arg
+                    puts "#{program.name}: #{program.description}"
+                    puts ""
+                end
+            end
+            puts ""
         end
         TTY::Prompt.new.select(" ") do |menu|
             menu.choice "Back", -> {self.category_finder}
