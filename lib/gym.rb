@@ -129,5 +129,4 @@ class Gym < ActiveRecord::Base
             menu.choice "Main Menu"
         end
     end
-
 end

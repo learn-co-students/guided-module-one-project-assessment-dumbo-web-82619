@@ -314,5 +314,4 @@ class Animation
     a.frame_20
     a.frame_21
   end
-
 end

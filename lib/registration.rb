@@ -5,5 +5,4 @@ class Registration < ActiveRecord::Base
     def programs
         self.gym.programs
     end
-
 end

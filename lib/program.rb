@@ -101,5 +101,4 @@ class Program < ActiveRecord::Base
             menu.choice "Main Menu"
         end
     end
-
 end

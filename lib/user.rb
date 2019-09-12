@@ -481,6 +481,4 @@ class User < ActiveRecord::Base
         end
         memberships
     end
-
-    
 end

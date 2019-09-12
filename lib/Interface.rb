@@ -48,5 +48,4 @@ class Interface
         puts ""
         exit!
     end
-
 end
