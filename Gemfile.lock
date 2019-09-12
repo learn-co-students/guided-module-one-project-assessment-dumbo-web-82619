@@ -16,7 +16,7 @@ GEM
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     equatable (0.6.1)
-    faker (2.2.2)
+    faker (2.3.0)
       i18n (~> 1.6.0)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
