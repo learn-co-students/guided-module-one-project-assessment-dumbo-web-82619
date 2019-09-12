@@ -29,6 +29,8 @@ HOW TO GET STARTED
 
 ---
 
+![](GymFinder-Opening-Animation.gif)
+
 HOW TO USE THE APP
 ========================
 
