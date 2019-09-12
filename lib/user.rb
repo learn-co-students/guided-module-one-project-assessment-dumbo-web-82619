@@ -76,14 +76,19 @@ class User < ActiveRecord::Base
             if self.passwords.include?(password)
                 user = User.find_by(username: username, password: password)
             else
-                until User.find_by(username: username, password: password)
-                    system "clear"
-                    puts "Incorrect password. Please re-enter."
-                    sleep 1
-                    system "clear"
-                    password = self.tty_prompt.mask("Enter your password")
-                end
-                user = User.find_by(username: username, password: password)
+                TTY::Prompt.new.select("Invalid password") do |menu|
+                        menu.choice "Try again?", -> {self.handle_returning_user}
+                        menu.choice "Exit App", -> {Interface.exit_app}
+                    end
+        #Produces and indefinite loop when password is repeatedly incorrect:∆
+                # until User.find_by(username: username, password: password)
+                #     system "clear"
+                #     puts "Incorrect password. Please re-enter."
+                #     sleep 1
+                #     system "clear"
+                #     password = self.tty_prompt.mask("Enter your password")
+                # end
+                # user = User.find_by(username: username, password: password)
             end
         else
             puts "Sorry, we do not have that username on file."
