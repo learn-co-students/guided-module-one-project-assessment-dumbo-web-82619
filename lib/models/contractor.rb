@@ -134,13 +134,13 @@ class Contractor < ActiveRecord::Base
     def my_contracts(user_instance)
         system "clear"
         cont_option = tty_prompt.select("Would you lke to...") do |m|
-            m.choice "  🗃 🗃 🗃 🗃 Select a existing CONTRACT  🗃 🗃 🗃 🗃    "
+            m.choice "  🗃 🗃 🗃 🗃 Select a existing CONTRACT  🗃 🗃 🗃 🗃  "
             m.choice "     📝  📝  📝   [Make new 'CONTRACT]    📝  📝  📝     ",->{new_contract(user_instance)}
             m.choice "        🛰🛰🛰       [FREELANCERS]       🛰🛰🛰          ",->{my_freelancers(user_instance)}
             m.choice "                         [EXIT]                            ",->{  ComandLineInterface.exit_cont_menu}
         end
         case cont_option
-        when "  🗃 🗃 🗃 🗃 Select a existing CONTRACT  🗃 🗃 🗃 🗃"
+        when "  🗃 🗃 🗃 🗃 Select a existing CONTRACT  🗃 🗃 🗃 🗃  "
             system "clear"
             cont_name = tty_prompt.select( "What CONTRACT would you like to view", contract_name )
             choice = tty_prompt.select("What would you like to do with #{cont_name} ?") do |m|
