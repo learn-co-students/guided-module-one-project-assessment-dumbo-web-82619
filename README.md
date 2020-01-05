@@ -10,6 +10,7 @@ The application is also pre-seeded with a list of bogus gyms and user informatio
 
 This app was developed as Flatiron School’s mod1 group project to demonstrate the knowledge of Active Record Associations, as well as CRUD methods, and database management.
 
+Here is a link to the blog about this app: https://medium.com/@bennylouie/summarizing-my-mod-1-project-2783b8438540?
 ---
 
 HOW TO GET STARTED
